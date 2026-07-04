@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Turnaround Stock Monitor | Fallen Angels Screen</title>
+  <title>Turnaround Stock Monitor</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -32,6 +32,7 @@
     .card-glow:hover { box-shadow: 0 0 0 1px rgba(34,211,238,.35), 0 12px 40px -12px rgba(34,211,238,.15); }
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-thumb { background: #243044; border-radius: 4px; }
+    input[type="checkbox"] { accent-color: #22D3EE; }
   </style>
 </head>
 <body class="min-h-screen text-slate-200 antialiased">
@@ -43,7 +44,7 @@
         <div class="h-9 w-9 rounded-lg bg-panel2 border border-line flex items-center justify-center text-accent font-bold">↺</div>
         <div>
           <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">Turnaround Stock Monitor</h1>
-          <p class="text-xs text-slate-400">Fallen-Angel Screen · Oracle / Rakuten Bank recovery profile · US · JP · SG · HK · CN</p>
+          <p class="text-xs text-slate-400">Oversold quality large-caps · global watchlist</p>
         </div>
       </div>
       <div class="flex items-center gap-3 text-xs">
@@ -71,21 +72,31 @@
     </div>
   </section>
 
+  <!-- ============ MARKET FILTER ============ -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-4">
+    <div class="rounded-xl bg-panel border border-line px-4 py-3 flex flex-wrap items-center gap-x-5 gap-y-2">
+      <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Markets</span>
+      <div id="market-filters" class="flex flex-wrap items-center gap-x-5 gap-y-2"></div>
+    </div>
+  </section>
+
   <!-- ============ CARD GRID ============ -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
     <div id="stock-grid" class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5"></div>
+    <div id="empty-state" class="hidden text-center py-16 text-sm text-slate-500">
+      No stocks match the selected markets. Tick at least one market above.
+    </div>
   </main>
 
   <footer class="max-w-7xl mx-auto px-4 sm:px-6 pb-10 text-center text-[11px] text-slate-500">
-    Informational analysis on delayed public data — not investment advice. Verify metrics against primary filings before trading.
+    Informational analysis on delayed public data — not investment advice. Win probabilities are subjective analyst estimates, not guarantees. Verify metrics against primary filings before trading.
   </footer>
 
   <!-- ============ DATA + LOGIC ============ -->
   <script>
   /* ================================================================
-     WATCHLIST DATA
-     Picks verified against the screen on the recap date below.
-     In production this object is overwritten daily by data.json
+     WATCHLIST DATA — embedded fallback.
+     In production this is overwritten daily by data.json
      (see scripts/update_data.py + GitHub Actions workflow).
      ================================================================ */
   const FALLBACK_DATA = {
@@ -95,9 +106,15 @@
         "ticker": "NASDAQ:CTSH",
         "name": "Cognizant Technology Solutions",
         "market": "United States — NASDAQ",
+        "marketCode": "US",
         "currency": "$",
         "conviction": "HIGH",
         "riskLevel": "Moderate",
+        "confidence": {
+          "probability": 70,
+          "expectedGain": "+31% to TP1 · +60% to TP2",
+          "horizon": "≥1–3 months to TP1 (trigger: Q2 earnings 29 Jul) · 6–12 months to TP2"
+        },
         "crash": {
           "currentPrice": 41.99,
           "high52w": 87.03,
@@ -126,9 +143,15 @@
         "ticker": "NYSE:CRM",
         "name": "Salesforce, Inc.",
         "market": "United States — NYSE",
+        "marketCode": "US",
         "currency": "$",
         "conviction": "HIGH",
         "riskLevel": "Moderate",
+        "confidence": {
+          "probability": 65,
+          "expectedGain": "+26% to TP1 · +52% to TP2",
+          "horizon": "≥3–6 months to TP1 · 9–15 months to TP2"
+        },
         "crash": {
           "currentPrice": 166.11,
           "high52w": 276.80,
@@ -157,9 +180,15 @@
         "ticker": "HKEX:1810",
         "name": "Xiaomi Corporation",
         "market": "Hong Kong — HKEX (Stock Connect)",
+        "marketCode": "HK",
         "currency": "HK$",
         "conviction": "SPECULATIVE",
         "riskLevel": "High — stage entries",
+        "confidence": {
+          "probability": 55,
+          "expectedGain": "+34% to TP1 · +80% to TP2",
+          "horizon": "≥6–12 months to TP1 (needs memory-cycle rollover + EV losses narrowing) · 12–18 months to TP2"
+        },
         "crash": {
           "currentPrice": 21.64,
           "high52w": 60.45,
@@ -188,9 +217,51 @@
   };
 
   /* ================================================================
-     RENDER LOGIC
-     Tries live data.json first (updated by GitHub Actions),
-     falls back to the embedded snapshot above.
+     MARKET FILTER
+     Checkboxes for each market; disabled when no stock currently
+     qualifies from that market. Selection persists in localStorage.
+     ================================================================ */
+  const MARKETS = [
+    { code: "US", label: "🇺🇸 US" },
+    { code: "JP", label: "🇯🇵 Japan" },
+    { code: "SG", label: "🇸🇬 Singapore" },
+    { code: "HK", label: "🇭🇰 Hong Kong" },
+    { code: "CN", label: "🇨🇳 China" },
+  ];
+
+  let DATA = null;
+  let activeMarkets = new Set(
+    JSON.parse(localStorage.getItem("tsm.activeMarkets") || "null") || MARKETS.map(m => m.code)
+  );
+
+  function renderFilters() {
+    const counts = {};
+    DATA.stocks.forEach(s => { counts[s.marketCode] = (counts[s.marketCode] || 0) + 1; });
+
+    document.getElementById("market-filters").innerHTML = MARKETS.map(m => {
+      const n = counts[m.code] || 0;
+      const disabled = n === 0;
+      const checked = activeMarkets.has(m.code) && !disabled;
+      return `
+        <label class="flex items-center gap-1.5 text-xs select-none ${disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:text-white"}"
+               title="${disabled ? "No qualifying stock from this market right now" : n + " stock(s)"}">
+          <input type="checkbox" data-code="${m.code}" ${checked ? "checked" : ""} ${disabled ? "disabled" : ""} class="h-3.5 w-3.5 rounded border-line bg-panel2">
+          <span>${m.label}</span>
+          <span class="font-mono ${disabled ? "text-slate-600" : "text-accent"}">(${n})</span>
+        </label>`;
+    }).join("");
+
+    document.querySelectorAll("#market-filters input[type=checkbox]").forEach(cb => {
+      cb.addEventListener("change", () => {
+        cb.checked ? activeMarkets.add(cb.dataset.code) : activeMarkets.delete(cb.dataset.code);
+        localStorage.setItem("tsm.activeMarkets", JSON.stringify([...activeMarkets]));
+        renderGrid();
+      });
+    });
+  }
+
+  /* ================================================================
+     CARD RENDERING
      ================================================================ */
   const fmt = (v) => (typeof v === "number" ? v.toLocaleString("en-US", { maximumFractionDigits: 2 }) : v);
 
@@ -208,7 +279,6 @@
   }
 
   function drawdownBar(crash) {
-    // position of current price within the 52w low→high range
     const range = crash.high52w - crash.low52w;
     const pos = range > 0 ? Math.min(100, Math.max(0, ((crash.currentPrice - crash.low52w) / range) * 100)) : 0;
     return `
@@ -231,21 +301,40 @@
     return `<span class="text-[10px] font-bold tracking-wider px-2 py-1 rounded border ${map[c] || 'bg-panel2 text-slate-400 border-line'}">${c}</span>`;
   }
 
+  function confidenceMeter(conf) {
+    if (!conf) return "";
+    const p = conf.probability;
+    const color = p >= 65 ? "bg-bull" : p >= 50 ? "bg-warn" : "bg-bear";
+    return `
+      <section class="rounded-xl border border-line bg-panel2/40 p-3">
+        <div class="flex items-center justify-between mb-1.5">
+          <h3 class="text-[10px] uppercase tracking-widest text-slate-300 font-bold">◎ Win Probability <span class="normal-case font-normal text-slate-500">(analyst estimate)</span></h3>
+          <span class="font-mono text-sm font-bold text-white">${p}%</span>
+        </div>
+        <div class="h-2 rounded-full bg-panel border border-line overflow-hidden">
+          <div class="h-full ${color} rounded-full" style="width:${p}%"></div>
+        </div>
+        <dl class="mt-2 text-[11px] leading-snug">
+          <div class="flex gap-2"><dt class="text-slate-500 shrink-0">Expected:</dt><dd class="text-bull font-mono">${conf.expectedGain}</dd></div>
+          <div class="flex gap-2 mt-0.5"><dt class="text-slate-500 shrink-0">Horizon:</dt><dd class="text-slate-300">${conf.horizon}</dd></div>
+        </dl>
+      </section>`;
+  }
+
   function renderCard(s) {
     const f = s.fundamentals;
     const cur = s.currency;
     return `
     <article class="card-glow rounded-2xl bg-panel border border-line p-5 flex flex-col gap-4 transition-shadow duration-300">
 
-      <!-- Card header -->
       <header class="flex items-start justify-between gap-3">
         <div>
           <div class="flex items-center gap-2 flex-wrap">
-            <h2 class="font-mono font-bold text-white text-base">${s.ticker}</h2>
+            <h2 class="font-mono font-extrabold text-accent text-lg tracking-tight" style="color:#22D3EE">${s.ticker}</h2>
             ${convictionBadge(s.conviction)}
           </div>
-          <p class="text-sm text-slate-300 mt-0.5">${s.name}</p>
-          <p class="text-[11px] text-slate-500">${s.market} · Risk: ${s.riskLevel}</p>
+          <p class="text-sm font-semibold text-slate-100 mt-0.5">${s.name}</p>
+          <p class="text-[11px] text-slate-400">${s.market} · Risk: ${s.riskLevel}</p>
         </div>
         <div class="text-right shrink-0">
           <div class="font-mono text-xl font-bold text-white">${cur}${fmt(s.crash.currentPrice)}</div>
@@ -255,13 +344,13 @@
 
       ${drawdownBar(s.crash)}
 
-      <!-- Crash reason -->
+      ${confidenceMeter(s.confidence)}
+
       <section>
         <h3 class="text-[10px] uppercase tracking-widest text-bear/90 font-bold mb-1">▼ The Crash</h3>
-        <p class="text-xs leading-relaxed text-slate-400">${s.crash.reason}</p>
+        <p class="text-xs leading-relaxed text-slate-300">${s.crash.reason}</p>
       </section>
 
-      <!-- Fundamental defense -->
       <section>
         <h3 class="text-[10px] uppercase tracking-widest text-accent font-bold mb-2">◈ Fundamental Defense</h3>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -277,13 +366,11 @@
         </div>
       </section>
 
-      <!-- Catalyst -->
       <section>
         <h3 class="text-[10px] uppercase tracking-widest text-bull font-bold mb-1">▲ Turnaround Catalyst</h3>
-        <p class="text-xs leading-relaxed text-slate-400">${s.catalyst}</p>
+        <p class="text-xs leading-relaxed text-slate-300">${s.catalyst}</p>
       </section>
 
-      <!-- Trading plan -->
       <section class="mt-auto rounded-xl border border-line bg-panel2/40 p-3">
         <h3 class="text-[10px] uppercase tracking-widest text-slate-300 font-bold mb-2">⌖ Trading Plan</h3>
         <dl class="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs font-mono">
@@ -297,9 +384,17 @@
     </article>`;
   }
 
+  function renderGrid() {
+    const visible = DATA.stocks.filter(s => activeMarkets.has(s.marketCode));
+    document.getElementById("stock-grid").innerHTML = visible.map(renderCard).join("");
+    document.getElementById("empty-state").classList.toggle("hidden", visible.length > 0);
+  }
+
   function render(data) {
+    DATA = data;
     document.getElementById("last-updated").textContent = data.lastUpdated;
-    document.getElementById("stock-grid").innerHTML = data.stocks.map(renderCard).join("");
+    renderFilters();
+    renderGrid();
   }
 
   // Try live data.json (written daily by CI); fall back to embedded snapshot.
