@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moch Chafidh Al Ayyubi — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1020; --bg2:#0f1630; --card:#131b38; --card2:#182148;
+  --ink:#eef2ff; --muted:#a5b0d4; --accent:#5b8cff; --accent2:#22d3ee; --gold:#fbbf24;
+  --line:rgba(165,176,212,.18); --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
+h1,h2,h3{font-family:'Sora',sans-serif}
+a{color:var(--accent2);text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(11,16,32,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-family:'Sora';font-weight:800;font-size:1.05rem;letter-spacing:.5px}
+.logo span{color:var(--accent)}
+nav ul{display:flex;gap:22px;list-style:none;font-size:.88rem}
+nav ul a{color:var(--muted);font-weight:500;transition:.2s}
+nav ul a:hover{color:var(--ink)}
+@media(max-width:760px){nav ul{display:none}}
+
+/* HERO */
+.hero{position:relative;padding:110px 0 90px;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-220px;right:-180px;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(91,140,255,.28),transparent 65%)}
+.hero::after{content:"";position:absolute;bottom:-260px;left:-160px;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,211,238,.16),transparent 65%)}
+.hero .wrap{position:relative;z-index:1}
+.kicker{display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--accent2);border:1px solid var(--line);padding:7px 16px;border-radius:999px;margin-bottom:22px}
+.hero h1{font-size:clamp(2.3rem,5.5vw,3.7rem);font-weight:800;line-height:1.12}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{max-width:640px;margin:22px 0 30px;color:var(--muted);font-size:1.06rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:34px}
+.chip{font-size:.8rem;font-weight:500;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:7px 14px;border-radius:999px}
+.cta{display:flex;flex-wrap:wrap;gap:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:12px;font-weight:600;font-size:.92rem;transition:.25s}
+.btn-primary{background:linear-gradient(90deg,var(--accent),#3f6ee0);color:#fff;box-shadow:0 8px 28px rgba(91,140,255,.35)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--line);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:var(--accent2);color:var(--accent2)}
+
+/* SECTIONS */
+section{padding:78px 0}
+.sec-head{margin-bottom:44px}
+.sec-head .tag{font-size:.75rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent)}
+.sec-head h2{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800;margin-top:8px}
+.sec-head p{color:var(--muted);max-width:620px;margin-top:10px}
+
+/* HIGHLIGHT STRIP */
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:-30px}
+.strip .cell{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.cell h3{font-size:1rem;color:var(--accent2);margin-bottom:6px}
+.cell p{font-size:.86rem;color:var(--muted)}
+
+/* TIMELINE */
+.timeline{position:relative;margin-left:14px}
+.timeline::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2))}
+.job{position:relative;padding:0 0 46px 36px}
+.job:last-child{padding-bottom:0}
+.job::before{content:"";position:absolute;left:-7px;top:8px;width:16px;height:16px;border-radius:50%;
+  background:var(--bg);border:3px solid var(--accent)}
+.job .meta{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;margin-bottom:4px}
+.job h3{font-size:1.18rem;font-weight:700}
+.job .co{color:var(--accent2);font-weight:600;font-size:.95rem}
+.job .when{font-size:.82rem;color:var(--muted);border:1px solid var(--line);padding:3px 12px;border-radius:999px}
+.job .loc{font-size:.84rem;color:var(--muted);margin-bottom:12px}
+.job ul{list-style:none;display:grid;gap:9px;margin-top:10px}
+.job li{position:relative;padding-left:22px;color:var(--muted);font-size:.93rem}
+.job li::before{content:"▸";position:absolute;left:0;color:var(--accent)}
+.job .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.tag-sm{font-size:.72rem;font-weight:600;color:var(--accent2);background:rgba(34,211,238,.08);
+  border:1px solid rgba(34,211,238,.25);padding:4px 11px;border-radius:999px}
+
+/* GRID CARDS */
+.grid{display:grid;gap:18px}
+.grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:rgba(91,140,255,.5)}
+.card .icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-size:1.25rem;background:linear-gradient(135deg,rgba(91,140,255,.25),rgba(34,211,238,.18));margin-bottom:16px}
+.card h3{font-size:1.02rem;margin-bottom:8px}
+.card p{font-size:.88rem;color:var(--muted)}
+.card .link{display:inline-block;margin-top:14px;font-size:.84rem;font-weight:600}
+
+/* SKILLS */
+.skill-group h3{font-size:.95rem;color:var(--accent2);margin-bottom:14px}
+.pills{display:flex;flex-wrap:wrap;gap:9px}
+.pill{font-size:.82rem;background:var(--card2);border:1px solid var(--line);color:var(--ink);padding:7px 15px;border-radius:999px}
+
+/* CERTS */
+.cert{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px}
+.cert .dot{flex:0 0 10px;height:10px;border-radius:50%;background:var(--gold);margin-top:8px}
+.cert h3{font-size:.95rem}
+.cert p{font-size:.82rem;color:var(--muted)}
+
+/* EDUCATION */
+.edu{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:var(--radius);padding:34px}
+.edu h3{font-size:1.2rem}
+.edu .school{color:var(--accent2);font-weight:600;margin:4px 0 16px}
+.edu ul{list-style:none;display:grid;gap:9px}
+.edu li{position:relative;padding-left:22px;color:var(--muted);font-size:.92rem}
+.edu li::before{content:"★";position:absolute;left:0;color:var(--gold);font-size:.8rem}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:54px 0;text-align:center}
+footer h2{font-size:1.7rem;margin-bottom:12px}
+footer p{color:var(--muted);max-width:520px;margin:0 auto 26px}
+.foot-links{display:flex;justify-content:center;flex-wrap:wrap;gap:18px;margin-bottom:30px;font-size:.9rem}
+.copy{font-size:.78rem;color:var(--muted)}
+@media print{
+  body{background:#fff;color:#111}
+  nav,.cta{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo">MC<span>.</span>A</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#certs">Certifications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker">Digital Transformation · Payments · AI &amp; Automation</span>
+    <h1>Moch Chafidh <em>Al Ayyubi</em></h1>
+    <p class="lead">Manager, Implementation Services at <strong>Visa</strong> — a digital transformation leader with a strong background in AI, automation, and digital products. I optimize processes, lead complex system integrations, and build strategies that align technology with business goals across banking, consulting, and tech.</p>
+    <div class="chips">
+      <span class="chip">📍 Jakarta, Indonesia</span>
+      <span class="chip">🌏 Delivering across Asia Pacific</span>
+      <span class="chip">📚 Published IEEE Researcher</span>
+    </div>
+    <div class="cta">
+      <a class="btn btn-primary" href="mailto:mchafidha@gmail.com">Get in Touch</a>
+      <a class="btn btn-ghost" href="https://linkedin.com/in/mchafidha" target="_blank">LinkedIn Profile</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap strip">
+  <div class="cell"><h3>Payments &amp; Fintech</h3><p>Client implementations for financial institutions across Asia Pacific market clusters at Visa.</p></div>
+  <div class="cell"><h3>AI &amp; Automation</h3><p>RPA and intelligent workflow delivery across banking, treasury, risk, and HR functions.</p></div>
+  <div class="cell"><h3>Business Analysis</h3><p>Requirements gathering, solution design, SIT/UAT leadership, and post-go-live enablement.</p></div>
+  <div class="cell"><h3>Data &amp; Insight</h3><p>Power BI dashboards and FP&amp;A design that empower data-driven decisions.</p></div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">About</span>
+      <h2>Turning technology into business outcomes</h2>
+      <p>Experienced across Financial Services &amp; Banking (Visa, BCA, BNI), IT Consulting (Mitra Solusi Telematika – Trakindo Group, The KPI Institute Australia), and Ride-Hailing (Grab) — skilled in driving customer-centric solutions and business growth.</p>
+    </div>
+  </div>
+</section>
+
+<section id="experience" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Experience &amp; Portfolios</span>
+      <h2>Career Journey</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="job">
+        <div class="meta"><h3>Manager, Implementation Services</h3><span class="co">Visa Inc.</span><span class="when">Nov 2025 – Present</span></div>
+        <div class="loc">Asia Pacific · Hybrid</div>
+        <ul>
+          <li>Strategic consultant to financial institutions — analyzing requirements and proposing technical solutions for the deployment of Visa products and services.</li>
+          <li>Manage the full project lifecycle for regional clients and processors, ensuring high-quality delivery aligned with global milestones, backed by risk assessments and issue management.</li>
+          <li>Build and influence relationships with internal product teams and external stakeholders for seamless system integration, driving localized product improvements.</li>
+          <li>Translate complex system architectures into clear, focused communications for executive audiences.</li>
+          <li>Deliver end-to-end implementations across Greater China, India &amp; South Asia, Southeast Asia, and Australia, New Zealand &amp; Pacific Islands.</li>
+          <li>Recognized for accelerating clients' time-to-revenue and consistently high client satisfaction (NPS).</li>
+        </ul>
+        <div class="tags"><span class="tag-sm">Visa Platforms</span><span class="tag-sm">Project Management</span><span class="tag-sm">Client Onboarding</span><span class="tag-sm">Stakeholder Management</span><span class="tag-sm">Payments</span></div>
+      </div>
+
+      <div class="job">
+        <div class="meta"><h3>Business Analyst Lead</h3><span class="co">Mitra Solusi Telematika (Trakindo Group)</span><span class="when">Mar 2023 – Oct 2025</span></div>
+        <div class="loc">Jakarta, Indonesia</div>
+        <ul>
+          <li>Led digital transformation projects across business units — ITSM, MST Marketplace platform, and ISO 27001 compliance — collaborating with Supply Chain, Finance, End User Services, and Core IT.</li>
+          <li>Managed End User Services (DaaS, licensing), Connectivity (LAN/WAN, Starlink), and Infrastructure (Cloud, SSL, SQL) with SLA availability and fulfillment per customer contracts.</li>
+          <li>Integrated IFRS-16 (PSAK-73) compliance software with marketplace systems to automate IT asset management across complex asset lifecycles.</li>
+          <li>Designed FP&amp;A processes and built Power BI financial dashboards; led client workshops on budgeting transformation.</li>
+          <li>Delivered RPA workflows that substantially cut manual workloads, with strategic automation roadmaps.</li>
+          <li>Mentored Business Analysts and led change management balancing business needs with IT service stability.</li>
+        </ul>
+        <div class="tags"><span class="tag-sm">SAP MM/FICO</span><span class="tag-sm">ServiceNow</span><span class="tag-sm">Anaplan</span><span class="tag-sm">Power BI</span><span class="tag-sm">PowerApps</span><span class="tag-sm">RPA</span><span class="tag-sm">AWS/Azure</span><span class="tag-sm">ITSM</span><span class="tag-sm">Pre-Sales</span></div>
+      </div>
+
+      <div class="job">
+        <div class="meta"><h3>Business Analyst</h3><span class="co">The KPI Institute</span><span class="when">Feb 2022 – Feb 2023</span></div>
+        <div class="loc">Melbourne, Australia · Remote</div>
+        <ul>
+          <li>Designed and deployed a Learning Management System integrated with the KPI Institute's marketplace, launching courses in multiple languages.</li>
+          <li>Partnered with sales and marketing to enhance the learning experience and deliver customized solutions for global partners.</li>
+          <li>Contributed to ERP/CRM strategy, aligning technology with business goals to substantially lift learner completion rates.</li>
+          <li>Subject matter expert delivering workshops and training to onboard partners and employees.</li>
+        </ul>
+        <div class="tags"><span class="tag-sm">ERP</span><span class="tag-sm">CRM</span><span class="tag-sm">LMS</span><span class="tag-sm">Strategic Planning</span><span class="tag-sm">Process Automation</span></div>
+      </div>
+
+      <div class="job">
+        <div class="meta"><h3>Business Analyst</h3><span class="co">Bank Negara Indonesia (BNI)</span><span class="when">Jan 2022 – Jun 2022</span></div>
+        <div class="loc">Jakarta, Indonesia</div>
+        <ul>
+          <li>Led automation of banking processes by integrating SAP FICO for financial transactions.</li>
+          <li>Deployed RPA for risk and treasury functions — automating installment conversion and remittance banking.</li>
+          <li>Significantly reduced operational cycle times while ensuring regulatory compliance.</li>
+          <li>Provided pre-sales support and proofs of concept showcasing automation benefits for banking clients.</li>
+        </ul>
+        <div class="tags"><span class="tag-sm">Core Banking</span><span class="tag-sm">SAP FICO</span><span class="tag-sm">RPA</span><span class="tag-sm">Process Optimization</span><span class="tag-sm">Pre-Sales</span></div>
+      </div>
+
+      <div class="job">
+        <div class="meta"><h3>Business Analyst</h3><span class="co">Bank Central Asia (BCA)</span><span class="when">Jan 2021 – Dec 2021</span></div>
+        <div class="loc">Jakarta, Indonesia</div>
+        <ul>
+          <li>Developed and implemented automation strategies for Human Capital processes.</li>
+          <li>Integrated ERP systems with automation tools to improve financial reporting.</li>
+          <li>Streamlined collaboration between HR, IT, and Compliance teams.</li>
+        </ul>
+        <div class="tags"><span class="tag-sm">SAP ERP</span><span class="tag-sm">HR Automation</span><span class="tag-sm">Blueprint</span><span class="tag-sm">Business Strategy</span></div>
+      </div>
+
+      <div class="job">
+        <div class="meta"><h3>Data &amp; Business Analyst</h3><span class="co">Grab Indonesia</span><span class="when">Dec 2020 – Mar 2021</span></div>
+        <div class="loc">Jakarta, Indonesia</div>
+        <ul>
+          <li>Led a baseline study on market perception of the Grab Express social seller program, shaping a long-term growth roadmap.</li>
+          <li>Partnered with cross-functional teams to deliver insights and recommendations for scaling the program.</li>
+          <li>Built impactful proofs of concept with Power BI for real-time analysis and visualization.</li>
+        </ul>
+        <div class="tags"><span class="tag-sm">Power BI</span><span class="tag-sm">Data Analytics</span><span class="tag-sm">Market Analysis</span><span class="tag-sm">Customer Engagement</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Capabilities</span>
+      <h2>Skills &amp; Toolbox</h2>
+    </div>
+    <div class="grid cols-2">
+      <div class="skill-group">
+        <h3>Delivery &amp; Consulting</h3>
+        <div class="pills"><span class="pill">End-to-End Project Management</span><span class="pill">Client Implementation &amp; Onboarding</span><span class="pill">Requirements Analysis</span><span class="pill">Solution Formulation</span><span class="pill">Risk &amp; Mitigation Planning</span><span class="pill">SIT / UAT</span><span class="pill">Change Management</span><span class="pill">Pre-Sales &amp; PoCs</span></div>
+      </div>
+      <div class="skill-group">
+        <h3>Platforms &amp; Tech</h3>
+        <div class="pills"><span class="pill">Visa Technical Tools &amp; Platforms</span><span class="pill">SAP (MM, FICO)</span><span class="pill">ServiceNow</span><span class="pill">Anaplan</span><span class="pill">Microsoft PowerApps</span><span class="pill">Power BI</span><span class="pill">UiPath · Blue Prism (RPA)</span><span class="pill">AWS · Azure</span><span class="pill">SQL</span></div>
+      </div>
+      <div class="skill-group">
+        <h3>Domain Knowledge</h3>
+        <div class="pills"><span class="pill">Payments &amp; Fintech</span><span class="pill">Core Banking</span><span class="pill">ITSM &amp; ITIL</span><span class="pill">ISO 27001 Compliance</span><span class="pill">IFRS-16 / PSAK-73</span><span class="pill">FP&amp;A</span><span class="pill">Infrastructure &amp; Connectivity</span></div>
+      </div>
+      <div class="skill-group">
+        <h3>Leadership &amp; Communication</h3>
+        <div class="pills"><span class="pill">Stakeholder Relationship Management</span><span class="pill">Executive Communication</span><span class="pill">Technical Writing</span><span class="pill">Team Mentoring</span><span class="pill">Cross-Functional Collaboration</span><span class="pill">Workshops &amp; Training</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Publications &amp; Research</span>
+      <h2>Published on IEEE Xplore</h2>
+    </div>
+    <div class="grid cols-3">
+      <div class="card">
+        <div class="icon">🏭</div>
+        <h3>Poka-Yoke System to Prevent Human Error in Material Preparation for Industry</h3>
+        <p>Lean-manufacturing-based Poka-Yoke implementation that reduces human error in material preparation, improving quality control and process efficiency.</p>
+        <a class="link" href="https://ieeexplore.ieee.org/document/9163707" target="_blank">Read on IEEE Xplore →</a>
+      </div>
+      <div class="card">
+        <div class="icon">🔥</div>
+        <h3>Fi-Ona: Fire Warning Alarm System Using IoT Based on Fuzzy Logic</h3>
+        <p>An IoT-powered fire warning system using fuzzy logic to boost response accuracy and cut false alarms for reliable real-time detection.</p>
+        <a class="link" href="https://ieeexplore.ieee.org/document/9309524" target="_blank">Read on IEEE Xplore →</a>
+      </div>
+      <div class="card">
+        <div class="icon">🏦</div>
+        <h3>Optimizing Core Banking Operations' ROI with Robotic Process Automation</h3>
+        <p>Case study from a leading Southeast Asian bank showing how RPA optimizes ROI in core banking operations through targeted process improvements.</p>
+        <a class="link" href="https://ieeexplore.ieee.org/document/10915031" target="_blank">Read on IEEE Xplore →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Credentials</span>
+      <h2>Certifications &amp; Training</h2>
+    </div>
+    <div class="grid cols-2">
+      <div class="cert"><div class="dot"></div><div><h3>AI Foundation Associate</h3><p>Oracle Cloud Infrastructure</p></div></div>
+      <div class="cert"><div class="dot"></div><div><h3>Diploma — RPA Business Analyst</h3><p>UiPath</p></div></div>
+      <div class="cert"><div class="dot"></div><div><h3>Robotic Process Automation Professional</h3><p>SS&amp;C Blue Prism</p></div></div>
+      <div class="cert"><div class="dot"></div><div><h3>IT Leadership Professional</h3><p>ServiceNow</p></div></div>
+      <div class="cert"><div class="dot"></div><div><h3>Power BI Data Analyst</h3><p>Microsoft</p></div></div>
+      <div class="cert"><div class="dot"></div><div><h3>Digital Product Management</h3><p>University of Virginia</p></div></div>
+      <div class="cert"><div class="dot"></div><div><h3>Strategic Management</h3><p>Copenhagen Business School</p></div></div>
+      <div class="cert"><div class="dot"></div><div><h3>English — IELTS Overall 7.0</h3><p>Language Proficiency</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Education</span>
+      <h2>Academic Background</h2>
+    </div>
+    <div class="edu">
+      <h3>Bachelor of Engineering — Telecommunication Engineering</h3>
+      <div class="school">Politeknik Elektronika Negeri Surabaya · Surabaya, Indonesia</div>
+      <ul>
+        <li>Awardee of Young Leaders Indonesia (YLI) by McKinsey &amp; Company</li>
+        <li>Scholarship awardee: Iman Usman (Co-Founder, Ruangguru), Indonesia's Bidikmisi, LAZISMU</li>
+        <li>Research presented internationally in Surabaya (Indonesia) and Okayama (Japan)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2>Let's build what's next.</h2>
+    <p>Open to conversations on payments, digital transformation, AI &amp; automation — anywhere in the world.</p>
+    <div class="foot-links">
+      <a href="mailto:mchafidha@gmail.com">✉️ mchafidha@gmail.com</a>
+      <a href="tel:+6285857258093">📞 +62 858-5725-8093</a>
+      <a href="https://linkedin.com/in/mchafidha" target="_blank">🔗 linkedin.com/in/mchafidha</a>
+    </div>
+    <div class="copy">© 2026 Moch Chafidh Al Ayyubi · Jakarta, Indonesia</div>
+  </div>
+</footer>
+
+</body>
+</html>
