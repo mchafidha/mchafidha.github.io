@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-10 22:06 UTC (EOD/T+1)",
+  "lastUpdated": "2026-08-11 22:11 UTC (EOD/T+1)",
   "stocks": [
     {
       "ticker": "NASDAQ:CTSH",
@@ -15,14 +15,14 @@
         "horizon": "≥1–3 months to TP1 (trigger: Q2 earnings 29 Jul) · 6–12 months to TP2"
       },
       "crash": {
-        "currentPrice": 58.31,
+        "currentPrice": 58.6,
         "high52w": 87.03,
         "low52w": 37.08,
-        "dropPct": -33.0,
+        "dropPct": -32.7,
         "reason": "'SaaSpocalypse' AI-deflation panic hit IT services hardest; Berenberg downgrade framed Cognizant as lacking a differentiated mix vs. Accenture. Market pricing structural decline not visible in reported numbers."
       },
       "fundamentals": {
-        "pb": 1.82,
+        "pb": 1.83,
         "pbAvg5y": 3.3,
         "currentRatio": 2.18,
         "debtEquity": 0.14,
@@ -54,14 +54,14 @@
         "horizon": "≥3–6 months to TP1 · 9–15 months to TP2"
       },
       "crash": {
-        "currentPrice": 197.51,
+        "currentPrice": 197.47,
         "high52w": 269.11,
         "low52w": 146.32,
         "dropPct": -26.6,
         "reason": "'SaaSpocalypse' fear that AI agents obsolete SaaS — despite Agentforce ARR of $1.2B growing +205% YoY. Record 13-day losing streak = capitulation; price has since based +13% off the low on volume."
       },
       "fundamentals": {
-        "pb": 4.73,
+        "pb": 4.72,
         "pbAvg5y": 4.8,
         "currentRatio": 0.79,
         "debtEquity": 1.24,
@@ -97,14 +97,14 @@
         "horizon": "≥6–12 months to TP1 (needs memory-cycle rollover + EV losses narrowing) · 12–18 months to TP2"
       },
       "crash": {
-        "currentPrice": 27.62,
+        "currentPrice": 26.66,
         "high52w": 59.9,
         "low52w": 21.3,
-        "dropPct": -53.9,
+        "dropPct": -55.5,
         "reason": "Two-front panic: memory cost super-cycle (memory ~+100% YoY, now 30–40% of handset BOM vs 10–15% norm) compressing phone margins, plus RMB 3.1B Q1 EV operating loss. Weekly RSI deeply oversold; least 'based' of the three — qualifies via RSI branch, not consolidation."
       },
       "fundamentals": {
-        "pb": 2.3,
+        "pb": 2.22,
         "pbAvg5y": 4.0,
         "currentRatio": 1.37,
         "debtEquity": 0.13,
