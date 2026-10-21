@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-20 00:30 UTC (EOD/T+1)",
+  "lastUpdated": "2026-10-21 00:01 UTC (EOD/T+1)",
   "stocks": [
     {
       "ticker": "NASDAQ:CTSH",
@@ -15,14 +15,14 @@
         "horizon": "≥1–3 months to TP1 (trigger: Q2 earnings 29 Jul) · 6–12 months to TP2"
       },
       "crash": {
-        "currentPrice": 66.79,
+        "currentPrice": 68.18,
         "high52w": 87.03,
         "low52w": 37.08,
-        "dropPct": -23.3,
+        "dropPct": -21.7,
         "reason": "'SaaSpocalypse' AI-deflation panic hit IT services hardest; Berenberg downgrade framed Cognizant as lacking a differentiated mix vs. Accenture. Market pricing structural decline not visible in reported numbers."
       },
       "fundamentals": {
-        "pb": 2.09,
+        "pb": 2.13,
         "pbAvg5y": 3.3,
         "currentRatio": 2.18,
         "debtEquity": 0.14,
@@ -56,7 +56,7 @@
         "horizon": "≥3–6 months to TP1 · 9–15 months to TP2"
       },
       "crash": {
-        "currentPrice": 242.45,
+        "currentPrice": 242.43,
         "high52w": 269.11,
         "low52w": 146.32,
         "dropPct": -9.9,
@@ -99,14 +99,14 @@
         "horizon": "≥6–12 months to TP1 (needs memory-cycle rollover + EV losses narrowing) · 12–18 months to TP2"
       },
       "crash": {
-        "currentPrice": 26.66,
+        "currentPrice": 27.06,
         "high52w": 48.14,
         "low52w": 21.3,
-        "dropPct": -44.6,
+        "dropPct": -43.8,
         "reason": "Two-front panic: memory cost super-cycle (memory ~+100% YoY, now 30–40% of handset BOM vs 10–15% norm) compressing phone margins, plus RMB 3.1B Q1 EV operating loss. Weekly RSI deeply oversold; least 'based' of the three — qualifies via RSI branch, not consolidation."
       },
       "fundamentals": {
-        "pb": 2.17,
+        "pb": 2.2,
         "pbAvg5y": 4.0,
         "currentRatio": 1.49,
         "debtEquity": 0.16,
